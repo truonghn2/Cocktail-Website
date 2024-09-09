@@ -1,5 +1,6 @@
 document.getElementById('new-cocktail').addEventListener('click', function() {
     window.location.reload(); //reload the page when you click the button
+
 });
 
 
@@ -14,7 +15,12 @@ image.addEventListener('mouseout', function() {
     image.src = 'favorite-icon.png';  
 });
 
-//favorites icon click functionality
+image.addEventListener("click", function() {
+    const sound = new Audio("/sounds/shaker.mp3");
+    sound.play();
+});
+
+//favorites icon click to save functionality
 document.getElementById('fav-icon').addEventListener('click', function() {
     const cocktail = {
         name: document.querySelector('.drink-title h1').textContent,
