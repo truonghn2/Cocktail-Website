@@ -38,7 +38,7 @@ document.getElementById('fav-icon').addEventListener('click', function() {
     })
     .then(response => {
         if (response.ok) {
-            alert('Cocktail saved!');
+            alert('Cocktail saved to favorites!');
         } else {
             alert('Failed to save cocktail.');
         }
