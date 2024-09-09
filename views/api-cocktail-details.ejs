@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Cocktail Recipe</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="nav-bar">
+        
+        <h2><a href="/">Random</a></h2>
+        <h2><a href="/favorites">Favorites</a></h2>
+        <div class="search-container">
+            <h2>Search</h2>
+            <div class="sub-nav">
+                <a href="/ingredient/rum">Rum</a>
+                <a href="/ingredient/whiskey">Whiskey</a>
+                <%# <a href="/ingredient/whisky">Whisky</a> %>
+                <a href="/ingredient/tequila">Tequila</a>
+                <a href="/ingredient/gin">Gin</a>
+                <a href="/ingredient/vodka">Vodka</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container">
+        <div class="drink-title">
+            <h1><%= cocktail.strDrink%></h1>
+        </div>
+
+        <div>
+            <img src="<%= cocktail.strDrinkThumb %>" alt="<%= cocktail.strDrink %>">
+        </div>
+
+        <div class="ingred-instruct">
+            <h2>Instructions:</h2>
+            <p><%= cocktail.strInstructions %></p>
+            <h2>Ingredients:</h2>
+            <ul>
+                <% cocktail.ingredients.forEach(ingredient => { %>
+                    <li><%= ingredient %></li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+    <script src="/script.js"></script>
+</body>
+</html>

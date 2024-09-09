@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Cocktail Recipe</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="nav-bar">
+        <h2><a href="/">Random</a></h2>
+        <h2><a href="/favorites">Favorites</a></h2>
+        <div class="search-container">
+            <h2>Search</h2>
+            <div class="sub-nav">
+                <a href="/ingredient/rum">Rum</a>
+                <a href="/ingredient/whiskey">Whiskey</a>
+                <%# <a href="/ingredient/whisky">Whisky</a> %>
+                <a href="/ingredient/tequila">Tequila</a>
+                <a href="/ingredient/gin">Gin</a>
+                <a href="/ingredient/vodka">Vodka</a>
+            </div>
+        </div>
+    </div>
+
+    <h1>Your Favorite Cocktails</h1>
+    <div class="favorites-container">
+        <% if (cocktails.length > 0) { %>
+            <% cocktails.forEach(cocktail => { %>
+                <div class="cocktail-card">
+                        <a href="/cocktail/<%= cocktail.id %>">
+                        <img src="<%= cocktail.image_url %>" alt="<%= cocktail.name %>">
+                        <h2><%= cocktail.name %></h2>
+                    </a>
+
+                    <!-- Delete button -->
+                    <form action="/delete-cocktail/<%= cocktail.id %>" method="POST" class="delete-form">
+                        <button type="submit" class="delete-btn">Delete</button>
+                    </form>
+
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No favorite cocktails saved yet!</p>
+        <% } %>
+    </div>
+
+   
+    <script src="/script.js"></script>
+</body>
+</html>
