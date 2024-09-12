@@ -6,6 +6,7 @@ import pg from 'pg';
 const app = express();
 const port = 3000;
 
+//database connection
 const db = new pg.Client({
   user:"postgres",
   host:"localhost",
@@ -22,12 +23,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(bodyParser.json());
 
-//set up route to get the random cocktail data
+//route to get the random cocktail data
 app.get("/", async (req, res) => {
     try {
       const response = await axios.get("https://www.thecocktaildb.com/api/json/v1/1/random.php");
       const cocktail = response.data.drinks[0];
       console.log(cocktail);
+      //render index.ejs file and pass cocktail data to template
       res.render("index.ejs", {
         cocktail
       });
@@ -39,8 +41,9 @@ app.get("/", async (req, res) => {
     }
 });
 
-//route to handle saving cocktails
+//route to handle saving cocktail to database
 app.post('/save-cocktail', async (req, res) => {
+  //destructure cocktail details 
   const { name, image_url, instructions, ingredients } = req.body;
   try {
       //fetch the cocktail data and insert into database
@@ -48,17 +51,19 @@ app.post('/save-cocktail', async (req, res) => {
           'INSERT INTO cocktails (name, image_url, instructions, ingredients) VALUES ($1, $2, $3, $4)',
           [name, image_url, instructions, ingredients]
       );
-      res.sendStatus(200); // Respond with success status
+      res.sendStatus(200); //success status
   } catch (error) {
       console.error('Error saving cocktail:', error.message);
-      res.sendStatus(500); // Respond with error status
+      res.sendStatus(500); //error status
   }
 });
 
 //route to render the saved cocktails onto the favorites page
 app.get('/favorites', async (req, res) => {
   try {
+      //fetch all cocktails from the database
       const result = await db.query('SELECT * FROM cocktails');
+      //extract rows of cocktail data
       const cocktails = result.rows;
       res.render('favorites.ejs', { cocktails });
   } catch (error) {
@@ -69,6 +74,7 @@ app.get('/favorites', async (req, res) => {
 
 //route to handle requests for individual cocktail details from database
 app.get('/cocktail/:id', async (req, res) => {
+  //get cocktail id form url parameter
   const cocktailId = req.params.id;
   try {
       const result = await db.query('SELECT * FROM cocktails WHERE id = $1', [cocktailId]);
@@ -91,9 +97,10 @@ app.post('/delete-cocktail/:id', async (req, res) => {
   const cocktailId = req.params.id;
 
   try {
-      // delete the cocktail from the database
+      //delete the cocktail from the database
       await db.query('DELETE FROM cocktails WHERE id = $1', [cocktailId]);
-      res.redirect('/favorites'); // redirect back to the favorites page
+      //redirect back to the favorites page
+      res.redirect('/favorites'); 
   } catch (error) {
       console.error('Error deleting cocktail:', error.message);
       res.status(500).send('Error deleting cocktail');
@@ -114,7 +121,8 @@ app.get('/ingredient/:ingredient', async (req, res) => {
   }
 });
 
-// route to handle requests for individual cocktail details from the API
+//route to handle requests for individual cocktail details from the API
+//to be able to click on a cocktail from the search page and view the details
 app.get('/cocktail/api/:id', async (req, res) => {
   const cocktailId = req.params.id;
   try {
@@ -123,7 +131,7 @@ app.get('/cocktail/api/:id', async (req, res) => {
       console.log('API Cocktail Data:', cocktail); // Log to check data
 
       if (cocktail) {
-          // Format ingredients as an array
+          //format ingredients as an array
           cocktail.ingredients = [];
           for (let i = 1; i <= 15; i++) {
               if (cocktail[`strIngredient${i}`]) {
