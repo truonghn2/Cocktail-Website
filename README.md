@@ -3,5 +3,7 @@ Uses the CocktailDB API to generate a random cocktail with ingredients and how t
 
 
 To start the server. In your terminal enter the following commands:
-npm install 
-nodemon index.js
+
+1) npm install 
+
+2) nodemon index.js
