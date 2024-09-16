@@ -7,3 +7,5 @@ To start the website. In your terminal enter the following commands:
 1) npm install 
 
 2) node index.js
+
+3) On your browser type in 'localhost:3000'
