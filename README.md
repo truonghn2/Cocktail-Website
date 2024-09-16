@@ -6,4 +6,4 @@ To start the server. In your terminal enter the following commands:
 
 1) npm install 
 
-2) nodemon index.js
+2) node index.js
